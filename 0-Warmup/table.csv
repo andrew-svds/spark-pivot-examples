@@ -1,0 +1,10 @@
+A,B,C,D
+foo,one,small,1
+foo,one,large,2
+foo,one,large,2
+foo,two,small,3
+foo,two,small,3
+bar,one,large,4
+bar,one,small,5
+bar,two,small,6
+bar,two,large,7
