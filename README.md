@@ -1,6 +1,6 @@
 #Spark Pivot Examples
 
-Code for examples in recent blog post
+Code examples for pivot in Spark 1.6
 
 * [Warmup](0-Warmup)
 * [Reporting](1-Reporting)

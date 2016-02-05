@@ -17,7 +17,7 @@ docker run -it spark-pivot-reporting
 
 This will drop you into a spark-shell with the TPC-DS tables ready to query. If you prefer pyspark add that to the end of your run command.
 
-Now you can try a query. Note to make copy/paste easy in the scala REPL it's wrapped in (). 
+Now you can try a query, the one below gives sales by category (rows) and quarter (column). Note, to make copy/paste easy in the scala REPL it's wrapped in (). 
 
 ```scala
 (sql("""select *, concat('Q', d_qoy) as qoy

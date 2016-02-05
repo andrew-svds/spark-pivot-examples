@@ -11,6 +11,7 @@ val users_raw = sc.textFile("Downloads/ml-1m/users.dat")
 case class User(user: Int, gender: String, age: Int)
 val users = users_raw.map(_.split("::")).map(u => User(u(0).toInt, u(1), u(2).toInt)).toDF
 
+// To get a balanced sample we keep only 2/5 of the men.
 val sample_users = users.where(expr("gender = 'F' or ( rand() * 5 < 2 )"))
 sample_users.groupBy("gender").count().show
 
@@ -23,12 +24,16 @@ sample_users.groupBy("gender").count().show
 +------+-----+
 */
 
+// This gets the 100 most popular movies by rating count.
 val popular = ratings.groupBy("movie").count().orderBy($"count".desc).limit(100).map(_.get(0)).collect
 
+// Pivoting to get the features (ratings for popular movies) of a user.
 val ratings_pivot = ratings.groupBy("user").pivot("movie", popular.toSeq).agg(expr("coalesce(first(rating),3)").cast("double"))
 
+// Adding a label 1.0 = male, 0.0 = female.
 val data = ratings_pivot.join(sample_users, "user").withColumn("label", expr("if(gender = 'M', 1, 0)").cast("double"))
 
+// Combine our features into one single column.
 import org.apache.spark.ml.feature.VectorAssembler
 val assembler = new VectorAssembler().setInputCols(popular.map(_.toString)).setOutputCol("features")
 
@@ -44,6 +49,8 @@ val model = pipeline.fit(training)
 
 val res = model.transform(test).select("label", "prediction")
 
+// Use pivot to get confusion matrix, 1.0 = male and 0.0 = female.
+// Rows are actuals and columns are predicted.
 res.groupBy("label").pivot("prediction", Seq(1.0, 0.0)).count().show
 
 /*
