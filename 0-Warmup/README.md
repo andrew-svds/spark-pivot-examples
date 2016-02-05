@@ -20,7 +20,7 @@ Start spark-shell with the databricks csv package
 spark-shell --packages com.databricks:spark-csv_2.10:1.3.0
 ```
 
-Load the [table](0-Warmup/table.csv) and do a pivot
+Load the [table](0-Warmup/table.csv) and do a pivot (adjusting the path to table.csv as necessary)
 
 ```scala
 val df = sqlContext.read.format("com.databricks.spark.csv").option("header", "true").option("inferSchema", "true").load("0-Warmup/table.csv")

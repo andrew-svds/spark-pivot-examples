@@ -1,6 +1,6 @@
 #2. Feature Generation
 
-Download [MovieLense 1M dataset](http://files.grouplens.org/datasets/movielens/ml-1m.zip)
+Download [MovieLense 1M dataset](http://files.grouplens.org/datasets/movielens/ml-1m.zip) and unzip. In a spark-shell try the following (adjusting the path to ml-1m as necessary).
 
 ```scala
 val ratings_raw = sc.textFile("Downloads/ml-1m/ratings.dat")
